@@ -31,13 +31,12 @@ def extract_features(path):
         print("failed:", path, e)
         return np.full(N_PRAAT, np.nan), np.full(N_MFCC, np.nan)
 
-def run(csv, audio_dir, prefix):
+def run(csv, audio_dir, prefix, limit=None):
     df = pd.read_csv(csv)
     results = Parallel(n_jobs=-1, verbose=5)(
-        delayed(extract_features)(os.path.join(audio_dir, p)) for p in df.path)
+        delayed(extract_features)(os.path.join(audio_dir, p)) for p in df.path[:limit])
     np.save(prefix + "_praat.npy", np.vstack([r[0] for r in results]))
     np.save(prefix + "_mfcc.npy", np.vstack([r[1] for r in results]))
 
 if __name__ == "__main__":
-    run("data/dev_filtered.csv", "data/dev", "data/dev")
-    run("data/test_filtered.csv", "data/test", "data/test")
+    run("data/train_filtered.csv", "data/train", "data/train")

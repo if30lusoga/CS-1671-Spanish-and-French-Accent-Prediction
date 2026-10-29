@@ -5,7 +5,7 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, classification_report
 
-CAP = 50  # max clips per speaker in training (set to None to use every clip)
+CAP = 20  # max clips per speaker in training (set to None to use every clip)
 
 def short(a):
     if a.startswith("España"):
